@@ -57,7 +57,7 @@
                                             <td>{{$candidate->user->username}}</td>
                                             <td>{{$candidate->nisn}}</td>
                                             <td>{{$candidate->full_name }}</td>
-                                            <td>{{$candidate->sex }}</td>
+                                            <td>{{$candidate->gender }}</td>
                                             <td>{{$candidate->school_origin }}</td>
                                             <td>@if($candidate->photo && $candidate->skl_file && $candidate->ijazah_file) Ya @endif</td>
                                             <td>{{$candidate->test_schedule }}</td>

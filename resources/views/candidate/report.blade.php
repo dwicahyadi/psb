@@ -74,6 +74,9 @@
                                 <hr>
 
                                 <div class="table-responsive">
+                                    @if(count($candidates) > 0 )
+                                        <a href="{{route('candidate.export',@request()->all())}}" class="btn btn-success">Export ke Excel</a>
+                                    @endif
 
                                     <table class="table table-bordered table-striped" id="dataTable">
                                         <thead>
@@ -88,6 +91,10 @@
                                             <th>Tempat Lahir</th>
                                             <th>Tanggal Lahir</th>
                                             <th>Alamat</th>
+                                            <th>Nama Orang Tua/Wali</th>
+                                            <th>Pekerjaan Orang Tua/Wali</th>
+                                            <th>No Telp Orang Tua/Wali</th>
+                                            <th>Jumlah Saudara</th>
                                             <th>Jurusan</th>
                                             <th>Kelengkapan Administrasi</th>
                                             <th>Jadwal Test</th>
@@ -106,10 +113,14 @@
                                                 <td>{{$candidate->school_origin }}</td>
                                                 <td>{{$candidate->nem }}</td>
                                                 <td>{{$candidate->full_name }}</td>
-                                                <td>{{$candidate->sex }}</td>
+                                                <td>{{$candidate->gender }}</td>
                                                 <td>{{$candidate->pob }}</td>
                                                 <td>{{date('d/m/Y', strtotime($candidate->dob)) }}</td>
                                                 <td>{{$candidate->address }}</td>
+                                                <td>{{$candidate->parent_name }}</td>
+                                                <td>{{$candidate->parent_job }}</td>
+                                                <td>{{$candidate->parent_phone }}</td>
+                                                <td>{{$candidate->number_of_siblings }}</td>
                                                 <td>{{$candidate->major->major_name ?? 'Belum dipilih' }}</td>
                                                 <td>@if($candidate->photo && $candidate->skl_file && $candidate->ijazah_file) Ya @endif</td>
                                                 <td>{{$candidate->test_schedule ?? 'Belum ditentukan' }}</td>

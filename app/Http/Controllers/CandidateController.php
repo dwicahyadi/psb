@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Candidate;
+use App\Exports\CandidateExport;
 use App\Major;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CandidateController extends Controller
 {
@@ -149,5 +151,33 @@ class CandidateController extends Controller
 
 
         return view('candidate.report',['majors'=>$majors,'candidates'=>$result]);
+    }
+
+    public function exportReport(Request $request)
+    {
+        $result = null;
+        $majors = Major::all();
+        if ($request['major_id'])
+        {
+            $candidates = Candidate::query();
+
+            $candidates->where('school_year',$request['school_year'])
+                ->whereIn('major_id',$request['major_id']);
+            if ($request['document_pass'])
+            {
+                $candidates->where('document_pass',1);
+            }
+            if ($request['be_accepted'])
+            {
+                $candidates->where('be_accepted',1);
+            }
+            if ($request['tested'])
+            {
+                $candidates->wherehas('test',function ($q){ return $q->where('is_finish',true);});
+            }
+            $result = $candidates->get();
+        }
+
+        return Excel::download(new CandidateExport('candidate.export_report',['candidates'=>$result]),'report calon siswa.xlsx');
     }
 }

@@ -14,6 +14,6 @@ return [
     */
 
     'failed' => 'These credentials do not match our records.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'throttle' => 'Anda melibihi batas tolrasnsi untuk gagal login. Silakan coba setelah :seconds/60 detik.',
 
 ];

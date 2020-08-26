@@ -96,8 +96,9 @@
                                         <th>User</th>
                                         <th>Nama Calon Siswa</th>
                                         <th>Asal Sekolah</th>
-                                        <th>NEM</th>
-                                        <th>Score Ujian</th>
+                                        <th>NEM (40%)</th>
+                                        <th>Score Ujian (60%)</th>
+                                        <th>Hasil (100%)</th>
                                         <th>Diterima</th>
                                     </tr>
                                     </thead>
@@ -105,14 +106,16 @@
                                     @php($i = 1)
                                     @forelse($tests as $test)
                                         @php($score = $test->testDetails->sum('score'))
+                                        @php($sum = ($test->user->candidate->nem * 40/100) + ($score * 60/100))
                                         <td>{{$i++}}</td>
                                         <td>{{$test->user->username}}</td>
                                         <td>{{$test->user->candidate->full_name}}</td>
                                         <td>{{$test->user->candidate->school_origin}}</td>
                                         <td>{{$test->user->candidate->nem}}</td>
                                         <td>{{$score}}</td>
+                                        <td>{{ number_format($sum) }}</td>
                                         <td>
-                                            <label><input type="checkbox" name="user_id[]" class="cb-accept" value="{{$test->user->id}}" @if($score >= $settings->minimum_score) checked @endif onclick="countAccept()"> Diterima</label>
+                                            <label><input type="checkbox" name="user_id[]" class="cb-accept" value="{{$test->user->id}}" @if($sum >= $settings->minimum_score) checked @endif onclick="countAccept()"> Diterima</label>
                                         </td>
                                     @empty
                                         <p>Belum ada hasil test</p>

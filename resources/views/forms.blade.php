@@ -56,9 +56,9 @@
                                     <tr>
                                         <td width="30%">Jenis Kelamin</td>
                                         <td>
-                                            <select name="sex" class="form-control" required>
-                                                <option @if(Auth::user()->candidate->sex == 'L') selected @endif value="L">Laki-laki</option>
-                                                <option @if(Auth::user()->candidate->sex == 'P') selected @endif value="P">Perempuan</option>
+                                            <select name="gender" class="form-control" required>
+                                                <option @if(Auth::user()->candidate->gender == 'L') selected @endif value="L">Laki-laki</option>
+                                                <option @if(Auth::user()->candidate->gender == 'P') selected @endif value="P">Perempuan</option>
                                             </select>
                                         </td>
                                     </tr>
@@ -77,6 +77,27 @@
                                         <td width="30%">Alamat</td>
                                         <td><textarea name="address" class="form-control" required>{{ Auth::user()->candidate->address }}</textarea></td>
                                     </tr>
+
+                                    <tr>
+                                        <td width="30%">Nama Orang Tua/Wali</td>
+                                        <td><input type="text" name="parent_name" class="form-control" value="{{ Auth::user()->candidate->parent_name }}" required></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td width="30%">Pekerjaan Orang Tua/Wali</td>
+                                        <td><input type="text" name="parent_job" class="form-control" value="{{ Auth::user()->candidate->parent_job }}" required></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td width="30%">Nomor Telp Orang Tua/Wali</td>
+                                        <td><input type="text" name="parent_phone" class="form-control" value="{{ Auth::user()->candidate->parent_phone }}" required></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td width="30%">Jumlah Saudara</td>
+                                        <td><input type="text" name="number_of_siblings" class="form-control" value="{{ Auth::user()->candidate->number_of_siblings }}" required></td>
+                                    </tr>
+
 
 
                                 </table>

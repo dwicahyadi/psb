@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,9 +14,15 @@ Auth::routes();
 
 /*Front End*/
 Route::get('/', function () {
-    return view('front');
-});
+    $majors = \App\Major::all();
+    return view('front',['majors'=> $majors]);
+})->name('frontpage');
+Route::get('/major/', function (Request $request) {
+    $major = \App\Major::where('code','=',$request['code'])->first();
+    if($major) return view('major',['major'=> $major]);
 
+    return redirect(route('frontpage'));
+})->name('frontpage.major');
 
 
 
@@ -80,6 +86,7 @@ Route::middleware('auth')->group(function () {
 
     /*Report*/
     Route::get('admin/report/candidates', 'CandidateController@report')->name('candidate.report');
+    Route::get('admin/export/candidates', 'CandidateController@exportReport')->name('candidate.export');
 
     /*Users*/
     Route::get('admin/user/', 'UserController@index')->name('user.index');
@@ -88,5 +95,7 @@ Route::middleware('auth')->group(function () {
     Route::post('admin/user/store', 'UserController@store')->name('user.store');
     Route::post('admin/user/update/{user}', 'UserController@update')->name('user.update');
     Route::get('admin/user/delete/{user}', 'UserController@destroy')->name('user.destroy');
+    Route::get('update_password', 'UserController@editPassword')->name('user.editPassword');
+    Route::post('update_password', 'UserController@updatePassword')->name('user.updatePassword');
 
 });

@@ -33,16 +33,24 @@
                                 <h3 class="card-title">Soal Baru</h3>
                             </div>
 
-                            <form action="{{route('question.store')}}" class="form" method="post" enctype="multipart/form-data">
+                            <form action="{{route('question.store')}}" class="form" method="post" enctype="multipart/form-data" id="form-question">
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">Mata Pelajaran</label>
                                     <div class="col-md-4">
-                                        <select name="subjects" class="form-control">
-                                            <option value="Matematika">Matematika</option>
-                                            <option value="Bahasa Indonesia">Bahasa Indonesia</option>
-                                            <option value="Bahasa Inggris">Bahasa Inggris</option>
-                                            <option value="Kewarganegaraan">Kewarganegaraan</option>
+                                        <select name="subjects" class="form-control" id="subject">
+                                            @forelse($subjects as $subject)
+                                                <option value="{{$subject->subject}}">{{$subject->subject}}</option>
+                                            @empty
+                                            @endforelse
+                                            <option value="new">***Tambah Pelajaran Baru***</option>
                                         </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row bg-info pt-2 pb-2 text-white" id="new-subject-field" style="display: none">
+                                    <label class="col-md-3 col-form-label">Mata Pelajaran Baru</label>
+                                    <div class="col-md-4">
+                                        <input type="text" name="new-subject" id="new-subject" class="form-control" placeholder="ketik nama mata pelajaran baru">
                                     </div>
                                 </div>
 
@@ -124,3 +132,28 @@
         </div>
     </section>
 @endsection()
+
+@section('script')
+<script>
+    $(function(){
+        $('#subject').change(function () {
+            if($(this).val() == 'new')
+            {
+                $('#new-subject-field').show(250);
+            }else{
+                $('#new-subject').val(null)
+                $('#new-subject-field').hide(250);
+            }
+        });
+
+        $('#form-question').submit(function (e) {
+            if($('#new-subject').val().length > 1)
+            {
+                var conf = confirm('Anda menambahkan mata pelajaran baru. Harap periksa kembali. Pelajaran tidak dapat dihapus');
+                if(!conf) e.preventDefault();
+            }
+        })
+    });
+</script>
+
+@endsection

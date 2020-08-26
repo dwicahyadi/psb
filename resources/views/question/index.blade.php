@@ -35,7 +35,7 @@
                                     <a href="{{route('question.upload')}}" class="btn btn-info text-white"><i class="fa fa-upload"></i> Upload Soal</a>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-start mb-2">
+                            <div class="d-flex justify-content-start mb-2" style="overflow-y: scroll">
                                  <strong class="mr-2">Score</strong>
                                 <a href="{{route('question.index')}}"  class="btn btn-sm btn-info text-white margin">Total : {{$data->where('active',1)->sum('score')}}</a>
                                 @foreach($subjects as $subject)

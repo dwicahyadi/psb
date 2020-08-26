@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-{{--    <link rel="icon" href="images/favicon.ico">--}}
+    {{--    <link rel="icon" href="images/favicon.ico">--}}
     <title>@yield('title')</title>
 
     <!-- Bootstrap core CSS -->
@@ -24,19 +24,27 @@
 <div class="container-fluid" id="wrapper">
     <div class="row">
         <nav class="sidebar col-xs-12 col-sm-4 col-lg-3 col-xl-2">
-            <h1 class="site-title"><a href="{{route('dashboard')}}"><em class="fa fa-rocket"></em><br> SMK MANGGALATAMA</a></h1>
-
+            <h1 class="site-title text-center"><a href="{{route('dashboard')}}"><img src="{{asset('images/logo smk.png')}}" alt="logo" width="48px"><br> SMK MANGGALATAMA BINAGUN CILACAP</a></h1>
+            <li class="dropdown-divider"></li>
             <a href="#menu-toggle" class="btn btn-default" id="menu-toggle"><em class="fa fa-bars"></em></a>
             <ul class="nav nav-pills flex-column sidebar-nav">
                 <li class="nav-item"><a class="nav-link @if(request()->is('admin/dashboard*')) active @endif" href="{{route('dashboard')}}"><em class="fa fa-dashboard"></em>Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link  @if(request()->is('admin/user*')) active @endif" href="{{route('user.index')}}"><em class="fa fa-key"></em> Users</a></li>
-                <li class="nav-item"><a class="nav-link @if(request()->is('admin/major*')) active @endif" href="{{route('major.index')}}"><em class="fa fa-wrench"></em> Jurusan</a></li>
-                <li class="nav-item"><a class="nav-link @if(request()->is('admin/question*')) active @endif" href="{{route('question.index')}}"><em class="fa fa-pencil"></em> Soal</a></li>
-                <li class="nav-item"><a class="nav-link @if(request()->is('admin/candidate*')) active @endif" href="{{route('candidate.index')}}"><em class="fa fa-users"></em> Calon Siswa</a></li>
-                <li class="nav-item"><a class="nav-link @if(request()->is('admin/test/result*')) active @endif" href="{{route('test.results')}}"><em class="fa fa-bookmark"></em> Hasil Test</a></li>
-                <li class="nav-item"><a class="nav-link @if(request()->is('admin/report*')) active @endif" href="{{route('candidate.report')}}"><em class="fa fa-bar-chart-o"></em> Laporan</a></li>
+                @can('manage users')
+                    <li class="nav-item"><a class="nav-link  @if(request()->is('admin/user*')) active @endif" href="{{route('user.index')}}"><em class="fa fa-key"></em> Users</a></li>
+                @endcan
+                @can('manage data')
+                    <li class="nav-item"><a class="nav-link @if(request()->is('admin/major*')) active @endif" href="{{route('major.index')}}"><em class="fa fa-wrench"></em> Jurusan</a></li>
+                    <li class="nav-item"><a class="nav-link @if(request()->is('admin/question*')) active @endif" href="{{route('question.index')}}"><em class="fa fa-pencil"></em> Soal</a></li>
+                    <li class="nav-item"><a class="nav-link @if(request()->is('admin/candidate*')) active @endif" href="{{route('candidate.index')}}"><em class="fa fa-users"></em> Calon Siswa</a></li>
+                    <li class="nav-item"><a class="nav-link @if(request()->is('admin/test/result*')) active @endif" href="{{route('test.results')}}"><em class="fa fa-bookmark"></em> Hasil Test</a></li>
+                @endcan
+                @can('view reports')
+                    <li class="nav-item"><a class="nav-link @if(request()->is('admin/report*')) active @endif" href="{{route('candidate.report')}}"><em class="fa fa-bar-chart-o"></em> Laporan</a></li>
+                @endcan
                 <li class="dropdown-divider"></li>
-                <li class="nav-item"><a class="nav-link @if(request()->is('settings*')) active @endif" href="{{route('settings')}}"><em class="fa fa-cogs"></em> Pengaturan</a></li>
+                @can('manage data')
+                    <li class="nav-item"><a class="nav-link @if(request()->is('settings*')) active @endif" href="{{route('settings')}}"><em class="fa fa-cogs"></em> Pengaturan</a></li>
+                @endcan
             </ul>
 
             <a class="logout-button"  href="{{ route('logout') }}"
@@ -51,14 +59,16 @@
 
                 @else
                     <div class="dropdown user-dropdown col-md-6 col-lg-4 text-center text-md-right"><a class="btn btn-stripped dropdown-toggle" href="https://example.com" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="{{asset('images/profile-pic.jpg')}}" alt="profile photo" class="circle float-left profile-photo" width="50" height="auto">
+                            <div class="circle float-left profile-photo" width="50" height="auto">
+                                <i class="fa fa-user fa-3x"></i>
+                            </div>
                             <div class="username mt-1">
                                 <h4 class="mb-1">{{ Auth::user()->name }} </h4>
-                                <h6 class="text-muted">Super Admin</h6>
+                                <h6 class="text-muted">{{ Auth::user()->role }} </h6>
                             </div>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right" style="margin-right: 1.5rem;" aria-labelledby="dropdownMenuLink"><a class="dropdown-item" href="#"><em class="fa fa-user-circle mr-1"></em> View Profile</a>
-                            <a class="dropdown-item" href="#"><em class="fa fa-sliders mr-1"></em> Preferences</a>
+                        <div class="dropdown-menu dropdown-menu-right" style="margin-right: 1.5rem;" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="{{route('user.editPassword')}}"><em class="fa fa-lock mr-1"></em> Ganti Password</a>
                             <a class="dropdown-item"  href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"><em class="fa fa-power-off mr-1"></em> Logout</a>

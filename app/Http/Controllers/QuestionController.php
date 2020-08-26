@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\QuestionsImport;
 use App\Question;
+use App\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Maatwebsite\Excel\Facades\Excel;
@@ -17,14 +18,15 @@ class QuestionController extends Controller
 
     public function index(Request $request)
     {
-        $subjects = ['Matematika','Bahasa Indonesia', 'Bahasa Inggris', 'Kewarganegaraan'];
+        $subjects = Subject::all()->pluck('subject');
         $data =  Question::all();
         return view('question.index', ['data'=> $data, 'subjects'=>$subjects]);
     }
 
     public function create()
     {
-        return view('question.create');
+        $subjects = Subject::all();
+        return view('question.create',['subjects'=>$subjects]);
     }
 
     public function store(Request $request)
@@ -39,6 +41,8 @@ class QuestionController extends Controller
             $url =  URL::asset('storage/'.$fileName);
         }
 
+
+
         $question = new Question();
         $question->subjects = $request['subjects'];
         $question->question = $request['question'];
@@ -49,6 +53,12 @@ class QuestionController extends Controller
         $question->option_d = $request['option_d'];
         $question->answer = $request['answer'];
         $question->score = $request['score'];
+
+        if ($request['new-subject'])
+        {
+            Subject::firstOrCreate(['subject'=>$request['new-subject']]);
+            $question->subjects = $request['new-subject'];
+        }
 
         if($question->save()){
             return redirect()->back()->with(['success'=> 'Berhasil disimpan']);
@@ -66,7 +76,8 @@ class QuestionController extends Controller
 
     public function edit(Question $question)
     {
-        return view('question.edit', ['question'=>$question]);
+        $subjects = Subject::all();
+        return view('question.edit', ['question'=>$question,'subjects'=>$subjects]);
     }
 
     public function update(Request $request, Question $question)
@@ -91,6 +102,12 @@ class QuestionController extends Controller
         $question->answer = $request['answer'];
         $question->score = $request['score'];
         $question->active = $request['active'] ?? 0;
+
+        if ($request['new-subject'])
+        {
+            Subject::firstOrCreate(['subject'=>$request['new-subject']]);
+            $question->subjects = $request['new-subject'];
+        }
 
         if($question->save()){
             return redirect()->back()->with(['success'=> 'Perubahan berhasil disimpan']);

@@ -48,7 +48,7 @@
                                 </tr>
                                 <tr>
                                     <td width="30%">Kelamin</td>
-                                    <td>{{$candidate->sex == 'L' ? 'Laki-laki': 'Perempuan'}}</td>
+                                    <td>{{$candidate->gender == 'L' ? 'Laki-laki': 'Perempuan'}}</td>
                                 </tr>
                                 <tr>
                                     <td width="30%">TTL</td>
@@ -57,6 +57,26 @@
                                 <tr>
                                     <td width="30%">Alamat</td>
                                     <td>{{$candidate->address}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td width="30%">Nama Orang Tua/Wali</td>
+                                    <td>{{$candidate->parent_name}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td width="30%">Pekerjaan Orang Tua/Wali</td>
+                                    <td>{{$candidate->parent_job}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td width="30%">No. Telp Orang Tua/Wali</td>
+                                    <td>{{$candidate->parent_phone}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td width="30%">Jumlah saudara</td>
+                                    <td>{{$candidate->number_of_siblings}}</td>
                                 </tr>
                                 <tr>
                                     <td width="30%">Asal Sekolah</td>

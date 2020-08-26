@@ -71,7 +71,7 @@
                                     <div class="col-md-6">
                                         <ul class="list-group">
                                             @forelse($user->getPermissionsViaRoles() as $permission)
-                                                <li>{{$permission}}</li>
+                                                <li>{{$permission->name}}</li>
                                             @empty
                                                 <li>-</li>
                                             @endforelse

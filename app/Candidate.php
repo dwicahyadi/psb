@@ -13,7 +13,7 @@ class Candidate extends Model
         'nisn',
         'school_origin',
         'nem',
-        'sex',
+        'gender',
         'pob',
         'dob',
         'address',
@@ -25,6 +25,10 @@ class Candidate extends Model
         'test_access',
         'school_year',
         'be_accepted',
+        'parent_name',
+        'parent_job',
+        'parent_phone',
+        'number_of_siblings',
     ];
 
     public function major()

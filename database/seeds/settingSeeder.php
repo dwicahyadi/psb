@@ -19,5 +19,14 @@ class settingSeeder extends Seeder
                 'school_year' => '2020/2021',
             ]
         );
+
+        $subjects = [
+            ['subject'=>'Matematika'],
+            ['subject'=>'Bahasa Indonesia'],
+            ['subject'=>'Bahasa Inggris'],
+            ['subject'=>'Kewarganegaraan'],
+        ];
+
+        \App\Subject::insert($subjects);
     }
 }
